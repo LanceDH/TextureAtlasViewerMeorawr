@@ -6,7 +6,7 @@ SCHEMA_URL := https://raw.githubusercontent.com/Meorawr/wow-ui-schema/main/UI.xs
 .PHONY: check data dist libs
 .FORCE:
 
-all: wow wow_anniversary wow_classic wow_classic_era wow_classic_titan
+all: wow wow_classic wow_classic_era
 
 check:
 	@luacheck -q $(shell git ls-files '*.lua')
@@ -21,40 +21,28 @@ libs:
 	@cp -a .release/TextureAtlasViewer/Libs/* Libs/
 
 wow_classic:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Mists.lua
+	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel LE_EXPANSION_MISTS_OF_PANDARIA >Data_Mists.lua
 
 wow_classic_beta:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Mists.lua
+	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel LE_EXPANSION_MISTS_OF_PANDARIA >Data_Mists.lua
 
 wow_classic_ptr:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Mists.lua
+	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel LE_EXPANSION_MISTS_OF_PANDARIA >Data_Mists.lua
 
 wow_classic_era:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Vanilla.lua
+	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel LE_EXPANSION_CLASSIC >Data_Vanilla.lua
 
 wow_classic_era_ptr:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Vanilla.lua
-
-wow_anniversary:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_TBC.lua
-
-wow_anniversary_ptr:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_TBC.lua
-
-wow_classic_titan:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Wrath.lua
-
-wow_classic_titan_ptr:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Wrath.lua
+	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel LE_EXPANSION_CLASSIC >Data_Vanilla.lua
 
 wow:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Mainline.lua
+	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel 10 >Data_Mainline.lua
 
 wow_beta:
 	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel 11 >Data_Midnight.lua
 
 wowt:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Mainline.lua
+	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel 10 >Data_Mainline.lua
 
 wowxptr:
-	pwsh Scripts/Generate-Atlases.ps1 -Product $@ >Data_Mainline.lua
+	pwsh Scripts/Generate-Atlases.ps1 -Product $@ -ExpansionLevel 10 >Data_Mainline.lua
