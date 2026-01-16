@@ -13,8 +13,7 @@ param (
 	[string] $Product,
 
 	# Expansion level constant to check when loading the data.
-	[Parameter(Mandatory=$true)]
-	[ValidateNotNull()]
+	[Parameter(Mandatory=$false)]
 	[string] $ExpansionLevel
 )
 
@@ -105,18 +104,23 @@ function Write-GroupedAtlases {
 		[ValidateNotNull()]
 		[string] $Version,
 
-		[Parameter(Mandatory=$true)]
-		[ValidateNotNull()]
+		[Parameter(Mandatory=$false)]
 		[string] $ExpansionLevel
 	)
 
 	begin {
-		@"
-local _, _addon = ...
+		"local _, _addon = ..."
+
+		if ($ExpansionLevel) {
+			@"
 
 if LE_EXPANSION_LEVEL_CURRENT ~= $($ExpansionLevel) then
     return;
 end
+"@
+		}
+
+		@"
 
 -- \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
@@ -146,7 +150,7 @@ local AtlasInfo = {
 -- Don't remove this!
 _addon.data = AtlasInfo
 _addon.dataBuild = $($Version.Split(".")[3])
-_addon.dataExpansion = $($ExpansionLevel)
+_addon.dataExpansion = $(if ($ExpansionLevel) { $ExpansionLevel } else { "nil" })
 "@
 	}
 }
